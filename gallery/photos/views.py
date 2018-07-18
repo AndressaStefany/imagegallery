@@ -1,6 +1,11 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+import os # os.getcwd()
 
-# Create your views here.
+from .models import Images
+
+
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    latest_image_list = Images.objects.order_by('-date')[:5]
+    context = {'latest_image_list': latest_image_list}
+    print(os.getcwd())
+    return render(request, 'photos/index.html', context)
