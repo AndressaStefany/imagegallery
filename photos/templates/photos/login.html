@@ -1,0 +1,77 @@
+{% extends "photos/header.html" %}
+{% load static %}
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-shrink2" id="mainNav2">
+    <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="/">Shared Gallery</a>
+        <button class="navbar-toggler navbar-toggler-right"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/#about">About/Add</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/#portfolio">Photos</a>
+                </li>
+                {% if perms.sessions.add_session %}
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/authorize/">Authorizations</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/#contact">Contact</a>
+                </li>
+                <li class="nav-item">
+                    {% if not user.is_authenticated %}
+                    <a class="nav-link js-scroll-trigger" href="/login/">Login</a>
+                    {% else %}
+                    <a class="nav-link js-scroll-trigger" href="/logout/">Logout</a>
+                    {% endif %}
+                </li>
+                {% if not user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/register/">Register</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="text-center" id="table_auth">
+    <div class="container">
+        <div class="col-lg-6 mx-auto text-center">
+            <h2 class="section-heading">Login</h2>
+            <hr>
+            <p class="mb-5">
+                Do you not have register? <a href="/register/">Register now!</a>
+            </p>
+            <div class="conteudo text-center">
+                {% for warning in warnings %}
+                <div class="alert alert-danger" role="alert">
+                    <p>{{warning}}</p>
+                </div>
+                {%  endfor %}
+
+                <form role="form"  action="" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="modal-footer margin-top25px">
+                        <button type="submit" name="login" class="btn btn-success pull-right">Login</button>
+                        <a name="cancel" class="btn btn-danger pull-right margin-right3percent" href="/">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

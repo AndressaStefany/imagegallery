@@ -1,0 +1,128 @@
+{% extends "photos/header.html" %}
+
+{% block content %}
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-shrink2" id="mainNav2">
+    <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="/">Shared Gallery</a>
+        <button class="navbar-toggler navbar-toggler-right"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/#about">About/Add</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/#portfolio">Photos</a>
+                </li>
+                {% if perms.sessions.add_session %}
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/authorize/">Authorizations</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/#contact">Contact</a>
+                </li>
+                <li class="nav-item">
+                    {% if not user.is_authenticated %}
+                    <a class="nav-link js-scroll-trigger" href="/login/">Login</a>
+                    {% else %}
+                    <a class="nav-link js-scroll-trigger" href="/logout/">Logout</a>
+                    {% endif %}
+                </li>
+                {% if not user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/register/">Register</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="text-center" id="table_auth">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-heading">Authorizations</h2>
+                <hr>
+                <p class="mb-5">
+                    <em>Only the people authorization can see this page!</em>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-10 col-lg-10 container">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <table class="table backgroundColor">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Authorized</th>
+                            <th scope="col">Authorize</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th></th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <input type="checkbox" name="checkMaster" id="masterCheck" onclick="checkFunction()">
+                            </td>
+                        </tr>
+                        {% for image in images %}
+                        <tr>
+                            <th scope="row">{{ image.id }}</th>
+                            <td>
+                                {{ image.description }}
+                            </td>
+                            <td>
+                                <img class="img-fluid" src="/files/{{image.path}}" alt="" width="150px">
+                            </td>
+                            <td>
+                                {% if image.authorized %}
+                                <p>Yes</p>
+                                {% else %}
+                                <p>No</p>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <input type="checkbox" name="{{ image.id }}" class="childrenCheck">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <div class="modal-footer margin-top25px">
+                            <button type="submit" name="autho" class="btn btn-success pull-right">Authorize</button>
+                            <button name="disallow" class="btn btn-danger pull-right margin-right3percent">Disallow</button>
+                            <a name="back" class="btn btn-secondary pull-right margin-right3percent" href="/">Back</a>
+                        </div>
+                        </tfoot>
+                    </table>
+
+                    <div class="modal-footer margin-top25px">
+                        <button type="submit" name="autho" class="btn btn-success pull-right">Authorize</button>
+                        <button name="disallow" class="btn btn-danger pull-right margin-right3percent">Disallow</button>
+                        <a name="back" class="btn btn-secondary pull-right margin-right3percent" href="/">Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="{% static 'js/button_check.js' %}"></script>
+{% endblock %}

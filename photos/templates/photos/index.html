@@ -1,0 +1,243 @@
+{% extends "photos/header.html" %}
+
+{% block content %}
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Shared Gallery</a>
+        <button class="navbar-toggler navbar-toggler-right"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="#about">About/Add</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="#portfolio">Photos</a>
+                </li>
+                {% if perms.sessions.add_session %}
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/authorize/">Authorizations</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+                </li>
+                <li class="nav-item">
+                    {% if not user.is_authenticated %}
+                    <a class="nav-link js-scroll-trigger" href="/login/">Login</a>
+                    {% else %}
+                    <a class="nav-link js-scroll-trigger" href="/logout/">Logout</a>
+                    {% endif %}
+                </li>
+                {% if not user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/register/">Register</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" title="Help" href="/help">?</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<header class="masthead text-center text-white d-flex">
+    <div class="container my-auto">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <h1 class="text-uppercase">
+                    <strong>
+                        {% if user.is_authenticated %}
+                        {{ user.username }} ,
+                        {% endif %}
+                        Welcome to Noivos's Shared Gallery
+                    </strong>
+                </h1>
+                <br>
+                <br>
+            </div>
+            <div class="col-lg-8 mx-auto">
+                <p class="text-faded mb-5">
+                    This site is for you! <br>
+                    Everybody can add photos of the best event od year, the wedding of Fulano and Fulana".
+                    Therefore, the people can see all the photos.
+                </p>
+                <a class="btn btn-primary btn-xl js-scroll-trigger" href="#portfolio">See the Photos</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="bg-primary" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-heading text-white">Here you can add the photos that you want!</h2>
+                <hr class="light my-4">
+                {% if user.is_authenticated %}
+                <p class="text-faded mb-4">
+                    This section allows you to add photos of the event, however, they will only be visible to everyone after the couple's ordeal.
+                </p>
+                {% for warning in warnings %}
+                <div class="alert alert-warning" role="alert">
+                    <p>{{warning}}</p>
+                </div>
+                {%  endfor %}
+                <form role="form" enctype="multipart/form-data" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                        <div class="modal-footer margin-top25px justifyContent">
+                        <button type="submit" name="add" class="btn btn-light btn-xl js-scroll-trigger" href="#about">
+                            Add photo!
+                        </button>
+                    </div>
+                </form>
+                {% else %}
+                <p class="text-faded mb-4">
+                    You need to logged to add images.
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="p-0" id="portfolio">
+    <div class="container-fluid p-0">
+        <div class="row text-center justifyContent margin3percent">
+            <div class="btn-group">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="sel1">Filter for:</label>
+                        <select class="form-control" id="sel1" onchange="this.form.submit()" name="filter">
+                            <option value="">--select--</option>
+                            <option value="like_count">like</option>
+                            <option value="date">date</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row no-gutters popup-gallery">
+            {% load filters %}
+            {% for image in object_list%}
+            <div class="col-lg-4 col-sm-6">
+
+                <form role="form" action="" method="POST">
+                    {% csrf_token %}
+                    <div class="modal-footer margin-top25px justifyContent">
+                        <button type="submit" name="like" class="btn btn-lg btn-outline-primary" role="button" aria-pressed="true"
+                                style="background-color: transparent" href="#portfolio" value="{{ image.id }}">
+                            <i class="fa fa-hand-peace-o fa-1x sr-contact corTheme">
+                                {{ image.like_count }} Likes
+                            </i>
+                        </button>
+                    </div>
+                </form>
+
+                <a class="portfolio-box" href="/files/{{image.path }} ">
+                    <img class="img-fluid" src="/files/{{image.path }}" alt="">
+                    <div class="portfolio-box-caption">
+                        <div class="portfolio-box-caption-content">
+                            <div class="project-category text-faded">
+                                Description
+                            </div>
+                            <div class="project-name">
+                                {{ image.description }}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="pagination" class="noPadding">
+    <div class="container">
+        <div class="row text-center">
+            {% if is_paginated %}
+            <div class="mx-auto text-center marginTop20px">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            {% if page_obj.has_previous %}
+                            <a class="page-link linkPagination"
+                               href="?page={{ page_obj.previous_page_number }}#portfolio"
+                               aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            {% endif %}
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link linkPagination">
+                                <span class="page-item">
+                                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                </span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            {% if page_obj.has_next %}
+                            <a class="page-link linkPagination"
+                               href="?page={{ page_obj.next_page_number }}#portfolio"
+                               aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-heading">Like this idea?</h2>
+                <hr class="my-4">
+                <p class="mb-5">
+                    <em>
+                        "It was only possible because of you, believe me! Thank you, my friends for sharing this special moment
+                        with us".
+                        <br>
+                        By: Fulano & Fulana.
+                    </em>
+                    <br><br>
+                    Any questions please contact us:
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 ml-auto text-center">
+                <i class="fa fa-phone fa-3x mb-3 sr-contact"></i>
+                <p>123-456-6789</p>
+            </div>
+            <div class="col-lg-4 mr-auto text-center">
+                <i class="fa fa-envelope-o fa-3x mb-3 sr-contact"></i>
+                <p>
+                    <a href="mailto:your-email@your-domain.com">noivos@cerimonial.com</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

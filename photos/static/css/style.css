@@ -1,0 +1,193 @@
+/*
+	Todd Motto Labs
+	URL: www.toddmotto.com
+*/
+
+/*------------------------------------*\
+    SuperBox
+\*------------------------------------*/
+*,
+*:after,
+*:before {
+	margin:0;
+	padding:0;
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-webkit-font-smoothing:antialiased;
+	-moz-font-smoothing:antialiased;
+	-o-font-smoothing:antialiased;
+	font-smoothing:antialiased;
+	text-rendering:optimizeLegibility;
+}
+body {
+	background:#e7e7e7;
+}
+ul {
+	list-style:none;
+}
+img {
+	vertical-align:bottom;
+}
+.wrapper {
+	max-width:1280px;
+	margin:0 auto;
+}
+.logo {
+	margin:25px 0;
+	text-align:center;
+}
+.logo-img {
+	max-width:95%;
+}
+/* SuperBox */
+.superbox-list {
+	display:inline-block;
+	*display:inline;
+	zoom:1;
+	width:12.5%;
+}
+.superbox-img {
+	max-width:100%;
+	width:100%;
+	cursor:pointer;
+}
+.superbox-show {
+	text-align:center;
+	position:relative;
+	/*background:#333;*/
+	background:#f8f8f8;
+	/*box-shadow:inset 0 1px 5px #111;*/
+	/*-webkit-box-shadow:inset 0 1px 5px #111;*/
+	/*-moz-box-shadow:inset 0 1px 5px #111;*/
+	width:100%;
+	float:left;
+	padding:25px;
+	display:none;
+}
+.superbox-current-img {
+	max-width:100%;
+	/*box-shadow:0 1px 4px #222;*/
+	/*border:1px solid #222;*/
+}
+.superbox-img:hover {
+	opacity:0.8;
+}
+.superbox-float {
+	float:left;
+}
+.superbox-close {
+	opacity:0.7;
+	cursor:pointer;
+	position:absolute;
+	top:25px;
+	right:25px;
+	background:url(../img/close.gif) no-repeat center center;
+	width:35px;
+	height:35px;
+	background-color: #222222;
+}
+.superbox-close:hover {
+	opacity:1;
+}
+@media only screen and (min-width: 320px) {
+	.superbox-list {
+		width:50%;
+	}
+}
+@media only screen and (min-width: 486px) {
+	.superbox-list {
+		width:25%;
+	}
+}
+@media only screen and (min-width: 768px) {
+	.superbox-list {
+		width:16.66666667%;
+	}
+}
+@media only screen and (min-width: 1025px) {
+	.superbox-list {
+		width:12.5%;
+	}
+}
+
+/*New top*/
+
+@media (min-width:992px){
+	#mainNav2.navbar-shrink2{
+		border-bottom:1px solid rgba(33,37,41,.1);
+		background-color:#fff
+	}
+	#mainNav2.navbar-shrink2 .navbar-brand{
+		color:#f05f40
+	}
+	#mainNav2.navbar-shrink2 .navbar-brand:focus,
+	#mainNav2.navbar-shrink2 .navbar-brand:hover{color:#f05f40}
+	#mainNav2.navbar-shrink2 .navbar-nav>li.nav-item>a.nav-link,
+	#mainNav2.navbar-shrink2 .navbar-nav>li.nav-item>a.nav-link:focus{
+		color:#212529
+	}
+	#mainNav2.navbar-shrink2 .navbar-nav>li.nav-item>a.nav-link:focus:hover,
+	#mainNav2.navbar-shrink2 .navbar-nav>li.nav-item>a.nav-link:hover{
+		color:#f05f40
+	}
+	#mainNav2 .navbar-nav>li.nav-item>a.nav-link, #mainNav2 .navbar-nav>li.nav-item>a.nav-link:focus {
+		color: rgba(255,255,255,.7);
+	}
+	#mainNav2 .navbar-nav>li.nav-item>a.nav-link {
+		padding: .5rem 1rem;
+		padding-top: 0.5rem;
+		padding-right: 1rem;
+		padding-bottom: 0.5rem;
+		padding-left: 1rem;
+	}
+	.navbar-expand-lg .navbar-nav .nav-link {
+		padding-right: .5rem;
+		padding-left: .5rem;
+	}
+}
+#mainNav2 .navbar-nav>li.nav-item>a.nav-link, #mainNav2 .navbar-nav>li.nav-item>a.nav-link:focus {
+	font-size: .9rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	color: #212529;
+}
+#mainNav2{
+	font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
+}
+#mainNav2 .navbar-brand {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #f05f40;
+    font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
+}
+table.backgroundColor{
+	background-color: #fff;
+}
+th, .linkPagination{
+	font-size: .9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+	font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
+}
+a.linkPagination{
+	color: #f05f40;
+}
+.marginTop20px{
+	margin-top: 20px!important;
+}
+.noPadding{
+	padding: 0%!important;
+}
+.justifyContent{
+	justify-content: center!important;
+}
+.margin3percent{
+	margin: 3%;
+}
+.backgroundColorTrans :hover{
+	background-color: transparent;
+}
+.corTheme{
+	color: #f05f40;
+}
