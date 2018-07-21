@@ -55,22 +55,6 @@ class IndexView(ListView):
                 else:
                     IndexView.warnings.append("Only the image formats can been added.")
             return HttpResponseRedirect('/#about')
-
-            # form = ImageUpload(request.POST, request.FILES)
-            # if form.is_valid():
-            #     f = request.FILES['image']
-            #     if request.user.is_authenticated:  # Save new image
-            #         title = 'uploads/{}_{}{}'.format(request.user.username,
-            #                                          datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S"),
-            #                                          os.path.splitext(str(f))[1])
-            #         with open(BASE_DIR+'/'+title, 'wb+') as destination:
-            #             for chunk in f.chunks():
-            #                 destination.write(chunk)
-
-            #         modelImage = Images(user=request.user, path=title, description=form.cleaned_data['description'])
-            #         modelImage.save()
-
-            #         return HttpResponseRedirect('/#about')
             
 
         elif request.method == 'POST' and 'like' in request.POST:  # like count
@@ -99,7 +83,7 @@ class IndexView(ListView):
             IndexView.variable_order = str(request.POST['filter'])
 
         return HttpResponseRedirect('/#portfolio')
-        #return render(request, 'photos/index.html', {'form': form, 'warnings': warnings})
+
 
 @csrf_protect
 def register(request):
@@ -180,8 +164,7 @@ def authorize(request):
 
     return render(request, 'photos/authorize.html', {'form': form, 'images':Images.objects.all()})
 
-#@login_required
-#@permission_required("sessions.add_session")
+
 def retrieve_file(request,img,ext):
     obj= Images.objects.filter(path__contains=img)
     if len(obj)==0:
