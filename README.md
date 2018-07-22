@@ -6,7 +6,7 @@
 ```
 $ pip install -r requirements.txt
 ```
-- Site [SharedGallery](https://github.com/user/repo/blob/branch/other_file.md)
+- Site [SharedGallery](https://sharedgallery.herokuapp.com/)
 
 - Explication of site
 
